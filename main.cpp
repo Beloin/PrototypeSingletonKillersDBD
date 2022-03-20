@@ -10,15 +10,6 @@
 
 using namespace std;
 
-
-const int AVAILABLE_KILLERS = 2;
-const int AVAILABLE_WEAPONS = 2;
-KillerProto* DEFAULT_KILLERS[AVAILABLE_KILLERS];
-Weapon* DEFAULT_WEAPONS[AVAILABLE_WEAPONS];
-
-
-// Make Singletons to setup default Killers.
-
 void setup_default_killers(){
     auto *wp1 = new Weapon("Machete", "Silver", 1.0, 20);
     auto *wp2 = new Weapon("Big Hammer", "Silver and Bloody", 1.0, 20);
@@ -26,11 +17,9 @@ void setup_default_killers(){
     auto *trapper = new KillerProto("Trapper", "Ugly chef's outfit", 5.2, wp1);
     auto *billy = new KillerProto("Hill Billy", "Farmers clothes", 5.4, wp2);
 
-    DEFAULT_KILLERS[0] = trapper;
-    DEFAULT_KILLERS[1] = billy;
-
-    DEFAULT_WEAPONS[0] = wp1;
-    DEFAULT_WEAPONS[1] = wp2;
+    KillerHolder *holder = KillerHolder::Instance();
+    holder->addKiller(trapper);
+    holder->addKiller(billy);
 }
 
 void configure_killer(int choice, KillerProto*killer){
@@ -61,18 +50,20 @@ void configure_killer(int choice, KillerProto*killer){
 void configure_new_killer(){
     cout << "Create your Killer from a base Killer:\n";
     cout << "Available Killers:\n";
-    for (int i = 0; i < AVAILABLE_KILLERS; ++i) {
-        cout << i << " - " << DEFAULT_KILLERS[i]->getName() << "\n";
+    KillerHolder *holder = KillerHolder::Instance();
+
+    for (int i = 0; i < holder->get_current_size(); ++i) {
+        cout << i << " - " << holder->getKiller(i)->getName() << "\n";
     }
     string choose;
     getline(cin, choose);
     int choice = stoi(choose);
 
-    auto chosed_killer = DEFAULT_KILLERS[choice]->clone();
+    auto chosed_killer = holder->getKiller(choice)->clone();
+
     cout << chosed_killer->getName() <<" specs: \n";
     cout << chosed_killer->toString();
     cout << "\n";
-
     while (1){
         cout << "Choose what you want change:\n";
         cout << "1 - Name\n";
@@ -94,36 +85,7 @@ void configure_new_killer(){
 }
 
 int main(){
-//    setup_default_killers();
-//    configure_new_killer();
-
-    auto *wp1 = new Weapon("Machete", "Silver", 1.0, 20);
-    auto *wp2 = new Weapon("Big Hammer", "Silver and Bloody", 1.0, 20);
-
-    auto *trapper = new KillerProto("Trapper", "Ugly chef's outfit", 5.2, wp1);
-    auto *billy = new KillerProto("Hill Billy", "Farmers clothes", 5.4, wp2);
-
-    KillerHolder *holder = new KillerHolder();
-    holder->addKiller(trapper);
-    holder->addKiller(trapper);
-    holder->addKiller(trapper);
-    holder->addKiller(trapper);
-    holder->addKiller(billy);
-    holder->addKiller(billy);
-    holder->addKiller(billy);
-    holder->addKiller(billy);
-    holder->addKiller(trapper);
-    holder->addKiller(trapper);
-    holder->addKiller(trapper);
-    holder->addKiller(trapper);
-
-//    for (int i = 0; i < holder->get_current_size(); ++i) {
-//        auto killer = holder->getKiller(i);
-//        cout << killer->toString();
-//    }
-
-    auto killer = holder->getKiller("Trapper");
-    cout << killer->toString();
-
+    setup_default_killers();
+    configure_new_killer();
     return 0;
 }

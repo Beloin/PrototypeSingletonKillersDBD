@@ -14,10 +14,15 @@ class KillerHolder {
 
 private:
     int max_size = 0;
-    KillerProto** pKillerProto;
+    KillerProto** pKillerProto{};
     int current_size = 0;
+    static KillerHolder *_instance;
+
+protected:
+    KillerHolder() = default;
 
 public:
+    static KillerHolder * Instance();
     KillerProto* getKiller(int index);
     KillerProto* getKiller(string name);
     void addKiller(KillerProto *killer);

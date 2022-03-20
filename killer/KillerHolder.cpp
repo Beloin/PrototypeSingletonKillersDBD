@@ -35,3 +35,9 @@ void KillerHolder::addKiller(KillerProto *killer) {
     pKillerProto[current_size] = killer;
     current_size++;
 }
+
+KillerHolder *KillerHolder::_instance = nullptr;
+KillerHolder *KillerHolder::Instance() {
+    if (_instance == nullptr) { _instance = new KillerHolder(); }
+    return _instance;
+}
