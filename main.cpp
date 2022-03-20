@@ -6,6 +6,7 @@
 #include "string"
 #include "killer/Weapon.h"
 #include "killer/KillerProto.h"
+#include "killer/KillerHolder.h"
 
 using namespace std;
 
@@ -14,6 +15,9 @@ const int AVAILABLE_KILLERS = 2;
 const int AVAILABLE_WEAPONS = 2;
 KillerProto* DEFAULT_KILLERS[AVAILABLE_KILLERS];
 Weapon* DEFAULT_WEAPONS[AVAILABLE_WEAPONS];
+
+
+// Make Singletons to setup default Killers.
 
 void setup_default_killers(){
     auto *wp1 = new Weapon("Machete", "Silver", 1.0, 20);
@@ -90,7 +94,36 @@ void configure_new_killer(){
 }
 
 int main(){
-    setup_default_killers();
-    configure_new_killer();
+//    setup_default_killers();
+//    configure_new_killer();
+
+    auto *wp1 = new Weapon("Machete", "Silver", 1.0, 20);
+    auto *wp2 = new Weapon("Big Hammer", "Silver and Bloody", 1.0, 20);
+
+    auto *trapper = new KillerProto("Trapper", "Ugly chef's outfit", 5.2, wp1);
+    auto *billy = new KillerProto("Hill Billy", "Farmers clothes", 5.4, wp2);
+
+    KillerHolder *holder = new KillerHolder();
+    holder->addKiller(trapper);
+    holder->addKiller(trapper);
+    holder->addKiller(trapper);
+    holder->addKiller(trapper);
+    holder->addKiller(billy);
+    holder->addKiller(billy);
+    holder->addKiller(billy);
+    holder->addKiller(billy);
+    holder->addKiller(trapper);
+    holder->addKiller(trapper);
+    holder->addKiller(trapper);
+    holder->addKiller(trapper);
+
+//    for (int i = 0; i < holder->get_current_size(); ++i) {
+//        auto killer = holder->getKiller(i);
+//        cout << killer->toString();
+//    }
+
+    auto killer = holder->getKiller("Trapper");
+    cout << killer->toString();
+
     return 0;
 }
