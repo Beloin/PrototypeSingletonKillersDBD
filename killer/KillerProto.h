@@ -12,7 +12,7 @@
 
 using namespace std;
 
-class KillerProto : IPrototype {
+class KillerProto : public IPrototype {
 
 public:
     KillerProto(const string &name, const string &outfit, float speed, Weapon *weapon);
@@ -36,13 +36,15 @@ public:
 
     void setSpeed(float speed);
 
-    const Weapon &getWeapon() const;
+    Weapon *getWeapon();
 
     void setWeapon(Weapon *weapon);
 
     const string &getOutfit() const;
 
     void setOutfit(const string &outfit);
+
+    string toString();
 };
 
 

@@ -3,6 +3,8 @@
 //
 
 #include "KillerProto.h"
+#include "iomanip"
+#include "../common/round_trunc.h"
 
 KillerProto *KillerProto::clone() {
     Weapon *wp_clone =  weapon->clone();
@@ -25,8 +27,8 @@ void KillerProto::setSpeed(float speed) {
     KillerProto::speed = speed;
 }
 
-const Weapon &KillerProto::getWeapon() const {
-    return *weapon;
+Weapon *KillerProto::getWeapon() {
+    return weapon;
 }
 
 void KillerProto::setWeapon(Weapon *weapon) {
@@ -45,3 +47,15 @@ KillerProto::KillerProto(const string &name, const string &outfit, float speed, 
                                                                                                         outfit(outfit),
                                                                                                         speed(speed),
                                                                                                         weapon(weapon) {}
+
+string KillerProto::toString() {
+    string value;
+    value += " - Name: " + name + "\n";
+    value += " - Outfit: " + outfit + "\n";
+    value += " - Weapon:\n";
+    value += "\t -> " + ("Name: " + weapon->getName()) + "\n";
+    value += "\t -> " + ("Damage: " + to_string(weapon->getDamage())) + "\n";
+    value += "\t -> " + ("Main Color: " + weapon->getMainColor()) + "\n";
+    value += " - Speed: " + (round_truncate(speed, 2)) + "\n";
+    return value;
+}

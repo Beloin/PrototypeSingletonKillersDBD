@@ -4,4 +4,4 @@ project(proto_singleton_cpp)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(proto_singleton_cpp
-        main.cpp killer/IPrototype.h killer/KillerProto.cpp killer/KillerProto.h killer/Weapon.cpp killer/Weapon.h)
+        main.cpp killer/IPrototype.h killer/KillerProto.cpp killer/KillerProto.h killer/Weapon.cpp killer/Weapon.h common/round_trunc.cpp common/round_trunc.h)
